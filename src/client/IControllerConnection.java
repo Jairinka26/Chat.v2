@@ -1,7 +1,7 @@
 package client;
 
+import java.io.IOException;
+
 public interface IControllerConnection {
-    void createConnection(String name);
-    void sendMessage(String message);
-    void disconnect();
+    void action(String action, String outMessage) throws IOException;
 }

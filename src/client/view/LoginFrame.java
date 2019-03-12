@@ -1,29 +1,30 @@
 package client.view;
 
-import client.ILoginFrameController;
+
+import client.Variables;
 
 import javax.swing.*;
 
 public class LoginFrame extends JFrame {
     private JPanel loginPanel;
-    JButton loginButton;
-    JButton cancelButton;
-    JTextField name;
+    private JButton loginButton;
+    private JButton cancelButton;
+    private JTextField name;
+    private ICallback callback;
     private static final int FRAME_WIDTH = 350;
     private static final int FRAME_HEIGHT = 200;
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 30;
     private static final int SECOND_ROW = 50;
-    private static final String BUTTON_LOGIN_NAME = "Login";
-    private static final String BUTTON_EXIT_NAME = "Cancel";
+    private static final String LOGIN_BUTTON_NAME = "Login";
+    private static final String EXIT_BUTTON_NAME = "Cancel";
     private static final String TITLE_NAME = "Chat v.2";
     private static final String LABEL_NAME = "Имя:";
 
-
-    public void start(ILoginFrameController controller) {
+     LoginFrame (ICallback callback) {
+         this.callback =callback;
         prepare();
-        setVisible(true);
-        listeners(controller);
+        listeners();
     }
 
     private void prepare() {
@@ -33,8 +34,8 @@ public class LoginFrame extends JFrame {
 
         loginPanel = new JPanel();
         name = new JTextField();
-        loginButton = new JButton(BUTTON_LOGIN_NAME);
-        cancelButton = new JButton(BUTTON_EXIT_NAME);
+        loginButton = new JButton(LOGIN_BUTTON_NAME);
+        cancelButton = new JButton(EXIT_BUTTON_NAME);
         JLabel label = new JLabel(LABEL_NAME);
 
         label.setBounds(10, 10, 30, BUTTON_HEIGHT);
@@ -51,10 +52,13 @@ public class LoginFrame extends JFrame {
         add(loginPanel);
     }
 
-    void listeners(ILoginFrameController controller) {
+    private void listeners() {
         loginButton.addActionListener(l -> {
-            controller.login(name.getText());
+            callback.action(Variables.LOGIN_ACTION,name.getText());
+        });
 
+        cancelButton.addActionListener(l -> {
+            callback.action(Variables.EXIT_ACTION);
         });
     }
 

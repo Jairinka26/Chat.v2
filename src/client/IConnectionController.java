@@ -1,5 +1,6 @@
 package client;
 
 public interface IConnectionController {
-    void receiveMessage (String message);
+    void action (String command,String message);
+    void isConnected();
 }
