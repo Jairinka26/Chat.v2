@@ -14,7 +14,6 @@ public class Connection implements IControllerConnection {
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
-    private String inMessage;
     private boolean isConnected = false;
 
     public void setController(IConnectionController controller) {
@@ -28,7 +27,7 @@ public class Connection implements IControllerConnection {
         sendOutMessage(outMessage);
         isConnected = true;
         controller.isConnected();
-        new Listener().start();
+        new ListenerThread().start();
     }
 
     private void sendOutMessage(String message) {
@@ -62,7 +61,8 @@ public class Connection implements IControllerConnection {
         }
     }
 
-    private class Listener extends Thread {
+    private class ListenerThread extends Thread {
+        String inMessage;
         @Override
         public void run() {
             while (isConnected) {
